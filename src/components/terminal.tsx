@@ -7,6 +7,7 @@ import Terminal, {
   TerminalOutput,
 } from "react-terminal-ui";
 import { createUniqueKey as key } from "@/lib/utils";
+import { getDuolingoData } from "@/lib/duolingo";
 
 export const TerminalComponent = () => {
   const prompt = "user@portfolio:~$";
@@ -34,9 +35,12 @@ export const TerminalComponent = () => {
     const commandMap = {
       help: "exibe os comandos disponíveis",
       clear: "limpa a tela do terminal",
-      skills: "mostra as minhas habilidades",
-      projects: "mostra os meus projetos",
-      contact: "mostra as minhas redes sociais",
+      skills: "exibe as minhas habilidades",
+      projects: "exibe os meus projetos",
+      contact: "exibe as minhas redes sociais",
+      welcome: "exibe a mensagem de boas vindas",
+      duolingo: "exibe a minha ofensiva no Duolingo",
+      secret: "dica para encontrar o segredo",
     };
 
     let errorMessage = null;
@@ -50,15 +54,119 @@ export const TerminalComponent = () => {
           ...output,
           ...command,
           ...Object.entries(commandMap).map(([cmd, description]) => (
-            <TerminalOutput
-              key={key()}
-            >{`${cmd} - ${description}`}</TerminalOutput>
+            <TerminalOutput key={key()}>{`${cmd}${
+              cmd.length >= 8 ? "\t" : "\t\t"
+            }- ${description}`}</TerminalOutput>
           )),
         ]);
         break;
+
       case "clear":
         setOutput([]);
         break;
+
+      case "skills":
+        setOutput([
+          ...output,
+          ...command,
+          <TerminalOutput key={key()}>
+            <ul>
+              <li>Node.js</li>
+              <li>JavaScript</li>
+              <li>TypeScript</li>
+              <li>React</li>
+              <li>Next.js</li>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>PostgreSQL</li>
+              <li>Git</li>
+              <li>Linux</li>
+              <li>Shell Script</li>
+              <li>Python</li>
+              <li>C#</li>
+              <li>.NET</li>
+            </ul>
+          </TerminalOutput>,
+        ]);
+        break;
+
+      case "projects":
+        setOutput([
+          ...output,
+          ...command,
+          <TerminalOutput key={key()}>
+            <ul>
+              <li>
+                <a
+                  href="https://duolingo-tracker.marlonangeli.com.br/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Duolingo Streak Tracker
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/marlonangeli/clone-tabnews"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Clone TabNews
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/marlonangeli/topx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  TopX
+                </a>
+              </li>
+            </ul>
+          </TerminalOutput>,
+        ]);
+        break;
+
+      case "duolingo":
+        const streak = getDuolingoData()
+          .then((data) => {
+            console.log(data.streak);
+            return data.streak;
+          })
+          .catch((err) => {
+            console.error(err);
+            return "Erro ao obter os dados do Duolingo";
+          });
+
+        streak.then((streak) =>
+          setOutput([
+            ...output,
+            ...command,
+            <TerminalOutput key={key()}>
+              A ofensiva do Duolingo é uma conquista importante pra mim, você
+              pode verificar em:
+            </TerminalOutput>,
+            <TerminalOutput key={key()}>
+              <a
+                href="https://www.duolingo.com/profile/marlonangeli"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-400"
+              >
+                https://www.duolingo.com/profile/marlonangeli
+              </a>
+            </TerminalOutput>,
+            <TerminalOutput key={key()}>
+              <span>
+                Minha ofensiva atual é de <strong>{streak}</strong> dias 🔥
+                <br />
+              </span>
+            </TerminalOutput>,
+          ])
+        );
+        break;
+
       case "":
         setOutput([...output, ...command]);
         break;
@@ -88,6 +196,7 @@ export const TerminalComponent = () => {
       name="Terminal in @portfolio"
       onInput={handleInput}
       colorMode={ColorMode.Dark}
+      key="terminal"
     >
       <TerminalOutput>
         <div className="text-wrap">{output}</div>
