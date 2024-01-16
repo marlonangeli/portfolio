@@ -1,4 +1,5 @@
-import { ModeToggle } from "@/components/mode-toggle";
+import DevelopmentWarning from "@/components/development-warning";
+import { Navbar } from "@/components/navbar";
 import { TerminalComponent } from "@/components/terminal";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -6,17 +7,11 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col p-3 max-w-screen-xl mx-auto">
-      <nav className="flex items-center justify-between w-full mb-10">
-        <Link href="/" passHref>
-          <span className="ml-2 text-xl font-bold">Marlon Angeli</span>
-        </Link>
-        <Button type="button" variant="destructive">
-          Contato
-        </Button>
-        <ModeToggle />
-      </nav>
-
-      <section className="container mx-auto flex items-center">
+      <Navbar />
+      <div className="max-w-lg mx-auto mb-4">
+        <DevelopmentWarning />
+      </div>
+      <section className="flex items-center justify-between">
         <div className="w-2/3 pr-8">
           <TerminalComponent />
         </div>
@@ -30,7 +25,7 @@ export default function Home() {
           </p>
           <div className="mt-10 flex justify-center flex-wrap space-x-4">
             <Button type="button" variant="default">
-              Contato
+              <Link href="mailto:iam@marlonangeli.com.br">Contato</Link>
             </Button>
             <Button type="button" variant="secondary">
               Baixar CV
