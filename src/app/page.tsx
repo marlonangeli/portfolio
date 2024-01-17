@@ -28,7 +28,13 @@ export default function Home() {
               <Link href="mailto:iam@marlonangeli.com.br">Contato</Link>
             </Button>
             <Button type="button" variant="secondary">
-              Baixar CV
+              <Link
+                href="https://rxresu.me/marlonangeli/desenvolvedor-back-end"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Baixar CV
+              </Link>
             </Button>
           </div>
         </div>
