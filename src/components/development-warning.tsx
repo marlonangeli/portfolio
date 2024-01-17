@@ -22,6 +22,7 @@ export default function DevelopmentWarning() {
           <AlertDescription>
             Algumas funcionalidades podem não estar disponíveis ou funcionar
             corretamente.
+            <p className="font-bold">Clique para saber mais.</p>
           </AlertDescription>
         </Alert>
       </DialogTrigger>
@@ -32,8 +33,12 @@ export default function DevelopmentWarning() {
           </DialogTitle>
           <DialogDescription>
             Por isso, algumas funcionalidades podem não estar disponíveis ou
-            funcionar corretamente. Caso tenha algum feedback, por favor, entre
-            em contato.
+            funcionar corretamente.
+          </DialogDescription>
+          <DialogDescription>
+            Recomendo fortemente utilizar o site em um dispositivo com tela
+            grande (computador ou tablet). Caso tenha algum feedback, por favor,
+            entre em contato.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
