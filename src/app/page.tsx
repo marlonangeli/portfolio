@@ -1,10 +1,8 @@
+import { Button } from "@/components/ui/button";
 import DevelopmentWarning from "@/components/development-warning";
+import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { TerminalComponent } from "@/components/terminal";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
-import { Suspense } from "react";
 
 export default function Home() {
   return (

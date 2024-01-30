@@ -1,11 +1,12 @@
-import React from "react";
-import Link from "next/link";
 import {
+  EnvelopeClosedIcon,
   GitHubLogoIcon,
   LinkedInLogoIcon,
-  EnvelopeClosedIcon,
   VercelLogoIcon,
 } from "@radix-ui/react-icons";
+
+import Link from "next/link";
+import React from "react";
 
 export default function Footer() {
   return (

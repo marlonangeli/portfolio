@@ -6,8 +6,9 @@ import Terminal, {
   TerminalInput,
   TerminalOutput,
 } from "react-terminal-ui";
-import { createUniqueKey as key } from "@/lib/utils";
+
 import { getDuolingoData } from "@/lib/duolingo";
+import { createUniqueKey as key } from "@/lib/utils";
 
 export const TerminalComponent = () => {
   const prompt = "user@portfolio:~$";

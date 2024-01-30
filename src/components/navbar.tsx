@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  EnvelopeClosedIcon,
+  GitHubLogoIcon,
+  LinkedInLogoIcon,
+} from "@radix-ui/react-icons";
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -9,17 +14,12 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import React, { ReactNode } from "react";
+
+import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import { cn } from "@/lib/utils";
-import React, { ReactNode } from "react";
-import {
-  EnvelopeClosedIcon,
-  GitHubLogoIcon,
-  LinkedInLogoIcon,
-} from "@radix-ui/react-icons";
-
-import { JetBrains_Mono } from "next/font/google";
 
 const JetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
