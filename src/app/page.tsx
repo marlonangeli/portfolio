@@ -2,7 +2,9 @@ import DevelopmentWarning from "@/components/development-warning";
 import { Navbar } from "@/components/navbar";
 import { TerminalComponent } from "@/components/terminal";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -15,6 +17,7 @@ export default function Home() {
         <div className="w-2/3 pr-8">
           <TerminalComponent />
         </div>
+
         <div className="w-1/3 text-center">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
             Bem vindo ao meu portfólio! 🚀
@@ -39,6 +42,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section className="flex flex-col items-center mt-10"></section>
     </main>
   );
 }
