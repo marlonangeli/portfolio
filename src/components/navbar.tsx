@@ -30,17 +30,17 @@ export const Navbar = () => {
     {
       title: "LinkedIn",
       href: "https://www.linkedin.com/in/marlonangeli/",
-      icon: <LinkedInLogoIcon className="h-4 w-4 inline-grid" />,
+      icon: <LinkedInLogoIcon />,
     },
     {
       title: "GitHub",
       href: "https://github.com/marlonangeli/",
-      icon: <GitHubLogoIcon className="h-4 w-4 inline-grid" />,
+      icon: <GitHubLogoIcon />,
     },
     {
       title: "E-mail",
       href: "mailto:iam@marlonangeli.com.br",
-      icon: <EnvelopeClosedIcon className="h-4 w-4 inline-grid" />,
+      icon: <EnvelopeClosedIcon />,
     },
   ];
 
@@ -76,16 +76,15 @@ export const Navbar = () => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Contato</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="flex flex-col p-1  mx-0 min-w-full max-w-full">
+              <ul className="grid w-max gap-3 p-2 md:w-[150px] lg:w-[180px] grid-cols-1 ">
                 {components.map((component) => (
-                  <ListItem
+                  <ListItemWithIcon
                     key={component.title}
+                    title={component.title}
                     href={component.href}
-                    className="w-full text-left space-x-2"
                   >
-                    <span>{component.icon}</span>
-                    <span>{component.title}</span>
-                  </ListItem>
+                    {component.icon}
+                  </ListItemWithIcon>
                 ))}
               </ul>
             </NavigationMenuContent>
@@ -97,27 +96,31 @@ export const Navbar = () => {
   );
 };
 
-const ListItem = React.forwardRef<
+const ListItemWithIcon = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ className, children, ...props }, ref) => {
+>(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
         <a
           ref={ref}
-          className={cn(
-            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
           target="_blank"
           rel="noopener noreferrer"
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{children}</div>
+          <div className="flex items-center space-x-2">
+            <span className="h-4 w-4">{children}</span>
+            <div className="text-sm font-medium leading-none">{title}</div>
+          </div>
         </a>
       </NavigationMenuLink>
     </li>
   );
 });
-ListItem.displayName = "ListItem";
+
+ListItemWithIcon.displayName = "ListItemWithIcon";

@@ -9,8 +9,11 @@ import Terminal, {
 
 import { getDuolingoData } from "@/lib/duolingo";
 import { createUniqueKey as key } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 export const TerminalComponent = () => {
+  const { theme } = useTheme();
+
   const prompt = "user@portfolio:~$";
   const [output, setOutput] = useState([
     <TerminalOutput key={key()}>Olá, eu sou</TerminalOutput>,
@@ -196,7 +199,11 @@ export const TerminalComponent = () => {
       prompt={prompt}
       name="Terminal in @portfolio"
       onInput={handleInput}
-      colorMode={ColorMode.Dark}
+      colorMode={
+        theme === "dark" || theme === "system"
+          ? ColorMode.Dark
+          : ColorMode.Light
+      }
       key="terminal"
     >
       <TerminalOutput>
