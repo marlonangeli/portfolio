@@ -37,9 +37,7 @@ export default function Footer() {
         </div>
 
         <div className="flex items-center justify-center">
-          <p className="mt-2 text-center text-xs">
-            © 2024 Marlon Angeli. Todos os direitos reservados.
-          </p>
+          <p className="mt-2 text-center text-xs">© 2024 Marlon Angeli</p>
         </div>
 
         <div className="flex flex-col items-center md:flex-row md:justify-end">
