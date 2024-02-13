@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
 import Terminal, {
   ColorMode,
   TerminalInput,
@@ -13,28 +13,59 @@ import { useTheme } from "next-themes";
 
 export const TerminalComponent = () => {
   const { theme } = useTheme();
+  const [output, setOutput] = useState<JSX.Element[]>([]);
+  const [error, setError] = useState<{ count: number; message: string | null }>(
+    {
+      count: 0,
+      message: null,
+    }
+  );
+  const memoizedGetDuolingoStreak = useMemo(async () => {
+    try {
+      const data = await getDuolingoData();
+      return data.streak;
+    } catch (err) {
+      console.error(err);
+      return "Erro ao obter os dados do Duolingo :(";
+    }
+  }, []);
 
   const prompt = "user@portfolio:~$";
-  const [output, setOutput] = useState([
-    <TerminalOutput key={key()}>Olá, eu sou</TerminalOutput>,
-    <TerminalOutput key={key()}>{AnsiName}</TerminalOutput>,
-    <TerminalOutput key={key()}>
-      um desenvolvedor de software Back-end 🚀
-    </TerminalOutput>,
-    <TerminalOutput key={key()}></TerminalOutput>,
-    <TerminalOutput key={key()}>
-      Bem vindo ao meu portfólio! Digite &apos;help&apos; para ver os comandos
-      disponíveis
-    </TerminalOutput>,
-  ]);
-  const [errorCount, setErrorCount] = useState(0);
+
+  useLayoutEffect(() => {
+    setOutput(initialOutput());
+  }, []);
+
+  const initialOutput = () => {
+    const initial = [
+      "Olá, eu sou",
+      AnsiName(),
+      "um desenvolvedor de software Back-end 🚀",
+      "",
+      "Bem vindo ao meu portfólio! Digite 'help' para ver os comandos disponíveis",
+    ];
+
+    return initial.map((line) => wrapInTerminalOutput(line));
+  };
+
+  const wrapInTerminalOutput = (line: string | JSX.Element) => (
+    <TerminalOutput key={key()}>{line}</TerminalOutput>
+  );
 
   const handleInput = (input: string) => {
-    const command = [
-      <TerminalInput key={key()} prompt={prompt}>
-        {input}
-      </TerminalInput>,
-    ];
+    const [cmd, ...parameters] = input.split(" ");
+
+    function updateTerminalOutput(newOutput: (JSX.Element | string)[]) {
+      const command = [
+        <TerminalInput key={key()} prompt={prompt}>
+          {cmd}
+        </TerminalInput>,
+      ];
+      const mappedOutput = newOutput.map((line) =>
+        typeof line === "string" ? wrapInTerminalOutput(line) : line
+      );
+      setOutput([...output, ...command, ...mappedOutput]);
+    }
 
     const commandMap = {
       help: "exibe os comandos disponíveis",
@@ -43,26 +74,21 @@ export const TerminalComponent = () => {
       projects: "exibe os meus projetos",
       contact: "exibe as minhas redes sociais",
       welcome: "exibe a mensagem de boas vindas",
-      duolingo: "exibe a minha ofensiva no Duolingo",
+      duolingo:
+        "exibe a ofensiva no Duolingo, é possível buscar por outro usuário passando o username como parâmetro",
       secret: "dica para encontrar o segredo",
     };
 
-    let errorMessage = null;
     const maxErrorCount = 2;
-    const incrementErrorCount = () =>
-      setErrorCount(errorCount < maxErrorCount ? errorCount + 1 : 0);
 
-    switch (input) {
+    switch (cmd) {
       case "help":
-        setOutput([
-          ...output,
-          ...command,
-          ...Object.entries(commandMap).map(([cmd, description]) => (
-            <TerminalOutput key={key()}>{`${cmd}${
-              cmd.length >= 8 ? "\t" : "\t\t"
-            }- ${description}`}</TerminalOutput>
-          )),
-        ]);
+        const helpOutput = Object.entries(commandMap).map(
+          ([cmd, description]) =>
+            `${cmd}${cmd.length >= 8 ? "\t" : "\t\t"}- ${description}`
+        );
+
+        updateTerminalOutput(helpOutput);
         break;
 
       case "clear":
@@ -70,10 +96,8 @@ export const TerminalComponent = () => {
         break;
 
       case "skills":
-        setOutput([
-          ...output,
-          ...command,
-          <TerminalOutput key={key()}>
+        updateTerminalOutput([
+          <div className="text-base leading-4" key={key()}>
             <ul>
               <li>Node.js</li>
               <li>JavaScript</li>
@@ -90,15 +114,13 @@ export const TerminalComponent = () => {
               <li>C#</li>
               <li>.NET</li>
             </ul>
-          </TerminalOutput>,
+          </div>,
         ]);
         break;
 
       case "projects":
-        setOutput([
-          ...output,
-          ...command,
-          <TerminalOutput key={key()}>
+        updateTerminalOutput([
+          <div className="text-base leading-4" key={key()}>
             <ul>
               <li>
                 <a
@@ -128,68 +150,82 @@ export const TerminalComponent = () => {
                 </a>
               </li>
             </ul>
-          </TerminalOutput>,
+          </div>,
         ]);
         break;
 
-      case "duolingo":
-        const streak = getDuolingoData()
-          .then((data) => {
-            console.log(data.streak);
-            return data.streak;
-          })
-          .catch((err) => {
-            console.error(err);
-            return "Erro ao obter os dados do Duolingo";
-          });
+      case "contact":
+        updateTerminalOutput([
+          "Você pode me encontrar em:",
+          "Linkedin...",
+          "GitHub...",
+        ]);
+        break;
 
-        streak.then((streak) =>
-          setOutput([
-            ...output,
-            ...command,
-            <TerminalOutput key={key()}>
-              A ofensiva do Duolingo é uma conquista importante pra mim, você
-              pode verificar em:
-            </TerminalOutput>,
-            <TerminalOutput key={key()}>
+      case "welcome":
+        updateTerminalOutput(initialOutput());
+        break;
+
+      case "duolingo":
+        memoizedGetDuolingoStreak.then((response) => {
+          if (typeof response === "number") {
+            updateTerminalOutput([
+              "A ofensiva do Duolingo é uma conquista importante pra mim, você pode verificar em:",
               <a
                 href="https://www.duolingo.com/profile/marlonangeli"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-400"
+                className="text-green-400 text-base leading-4"
+                key={key()}
               >
                 https://www.duolingo.com/profile/marlonangeli
-              </a>
-            </TerminalOutput>,
-            <TerminalOutput key={key()}>
-              <span>
-                Minha ofensiva atual é de <strong>{streak}</strong> dias 🔥
+              </a>,
+              <span className="text-base leading-4" key={key()}>
+                Minha ofensiva atual é de <strong>{response}</strong> dias 🔥
                 <br />
-              </span>
-            </TerminalOutput>,
-          ])
-        );
+              </span>,
+            ]);
+          } else {
+            updateTerminalOutput([
+              <span key={key()} className="text-red-600">
+                {response}
+              </span>,
+            ]);
+          }
+        });
+        break;
+
+      case "secret":
+        updateTerminalOutput([
+          "Ainda estou implementando essa funcionalidade...",
+        ]);
         break;
 
       case "":
-        setOutput([...output, ...command]);
+        updateTerminalOutput([]);
         break;
+
       default:
-        errorMessage =
-          errorCount == maxErrorCount
-            ? `Digite 'help' para ver os comandos disponíveis`
-            : null;
-        incrementErrorCount();
-        setOutput([
-          ...output,
-          ...command,
-          <div className="text-red-600" key={key()}>
-            <TerminalOutput>
-              <span>{`Comando '${input}' não encontrado`}</span>
-            </TerminalOutput>
-            {errorMessage && <TerminalOutput>{errorMessage}</TerminalOutput>}
+        setError({
+          count: error.count <= maxErrorCount ? error.count + 1 : 0,
+          message:
+            error.count === maxErrorCount
+              ? `Digite 'help' para ver os comandos disponíveis`
+              : null,
+        });
+        updateTerminalOutput([
+          <div className="text-red-600 text-base leading-5" key={key()}>
+            {`Comando '${cmd}' não encontrado`}
+            {error.message && (
+              <span>
+                <br />
+                {error.message}
+              </span>
+            )}
+            ,
           </div>,
         ]);
+        break;
     }
   };
 
@@ -199,21 +235,34 @@ export const TerminalComponent = () => {
       prompt={prompt}
       name="Terminal in @portfolio"
       onInput={handleInput}
-      colorMode={
-        theme === "dark" || theme === "system"
-          ? ColorMode.Dark
-          : ColorMode.Light
-      }
+      colorMode={theme === "light" ? ColorMode.Light : ColorMode.Dark}
       key="terminal"
     >
-      <TerminalOutput>
-        <div className="text-wrap">{output}</div>
-      </TerminalOutput>
+      {output}
     </Terminal>
   );
 };
 
-const AnsiName = `
+const AnsiName = () => {
+  const ansii = [
+    `
+  __  __            _             
+ |  \\/  |          | |            
+ | \\  / | __ _ _ __| | ___  _ __  
+ | |\\/| |/ _\` | '__| |/ _ \\| '_ \\ 
+ | |  | | (_| | |  | | (_) | | | |
+ |_|  |_|\\__,_|_|  |_|\\___/|_| |_|
+                            _ _ 
+     /\\                    | (_)
+    /  \\   _ __   __ _  ___| |_ 
+   / /\\ \\ | '_ \\ / _\` |/ _ \\ | |
+  / ____ \\| | | | (_| |  __/ | |
+ /_/    \\_\\_| |_|\\__, |\\___|_|_|
+                  __/ |         
+                 |___/          
+`,
+
+    `
   __  __            _                                         _ _ 
  |  \\/  |          | |                 /\\                    | (_)
  | \\  / | __ _ _ __| | ___  _ __      /  \\   _ __   __ _  ___| |_ 
@@ -223,4 +272,13 @@ const AnsiName = `
                                                     __/ |         
                                                    |___/          
 
-`;
+`,
+  ];
+
+  return (
+    <div>
+      <pre className="md:hidden">{ansii[0]}</pre>
+      <pre className="hidden md:block">{ansii[1]}</pre>
+    </div>
+  );
+};

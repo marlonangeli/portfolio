@@ -76,7 +76,7 @@ export const Navbar = () => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Contato</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-max gap-3 p-2 md:w-[150px] lg:w-[180px] grid-cols-1 ">
+              <ul className="grid w-max gap-3 p-2 lg:w-[150px] grid-cols-1 ">
                 {components.map((component) => (
                   <ListItemWithIcon
                     key={component.title}
