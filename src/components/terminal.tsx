@@ -15,11 +15,9 @@ export const TerminalComponent = () => {
   const { theme } = useTheme();
   const [output, setOutput] = useState<JSX.Element[]>([]);
   const [error, setError] = useState<{ count: number; message: string | null }>(
-    {
-      count: 0,
-      message: null,
-    }
+    { count: 0, message: null }
   );
+
   const memoizedGetDuolingoStreak = useMemo(async () => {
     try {
       const data = await getDuolingoData();
@@ -30,11 +28,21 @@ export const TerminalComponent = () => {
     }
   }, []);
 
-  const prompt = "user@portfolio:~$";
+  useLayoutEffect(() => setOutput(initialOutput()), []);
 
-  useLayoutEffect(() => {
-    setOutput(initialOutput());
-  }, []);
+  const prompt = "user@portfolio:~$";
+  const maxErrorCount = 2;
+  const commandMap = {
+    help: "exibe os comandos disponíveis",
+    clear: "limpa a tela do terminal",
+    skills: "exibe as minhas habilidades",
+    projects: "exibe os meus projetos",
+    contact: "exibe as minhas redes sociais",
+    welcome: "exibe a mensagem de boas vindas",
+    duolingo:
+      "exibe a ofensiva no Duolingo, é possível buscar por outro usuário passando o username como parâmetro",
+    secret: "dica para encontrar o segredo",
+  };
 
   const initialOutput = () => {
     const initial = [
@@ -48,12 +56,16 @@ export const TerminalComponent = () => {
     return initial.map((line) => wrapInTerminalOutput(line));
   };
 
-  const wrapInTerminalOutput = (line: string | JSX.Element) => (
-    <TerminalOutput key={key()}>{line}</TerminalOutput>
-  );
+  const wrapInTerminalOutput = (line: string | JSX.Element) => {
+    return (
+      <TerminalOutput key={key()}>
+        <div className="">{line}</div>
+      </TerminalOutput>
+    );
+  };
 
   const handleInput = (input: string) => {
-    const [cmd, ...parameters] = input.split(" ");
+    const [cmd, ...parameters] = input.trim().split(" ");
 
     function updateTerminalOutput(newOutput: (JSX.Element | string)[]) {
       const command = [
@@ -61,25 +73,9 @@ export const TerminalComponent = () => {
           {cmd}
         </TerminalInput>,
       ];
-      const mappedOutput = newOutput.map((line) =>
-        typeof line === "string" ? wrapInTerminalOutput(line) : line
-      );
+      const mappedOutput = newOutput.map((line) => wrapInTerminalOutput(line));
       setOutput([...output, ...command, ...mappedOutput]);
     }
-
-    const commandMap = {
-      help: "exibe os comandos disponíveis",
-      clear: "limpa a tela do terminal",
-      skills: "exibe as minhas habilidades",
-      projects: "exibe os meus projetos",
-      contact: "exibe as minhas redes sociais",
-      welcome: "exibe a mensagem de boas vindas",
-      duolingo:
-        "exibe a ofensiva no Duolingo, é possível buscar por outro usuário passando o username como parâmetro",
-      secret: "dica para encontrar o segredo",
-    };
-
-    const maxErrorCount = 2;
 
     switch (cmd) {
       case "help":
@@ -97,60 +93,56 @@ export const TerminalComponent = () => {
 
       case "skills":
         updateTerminalOutput([
-          <div className="text-base leading-4" key={key()}>
-            <ul>
-              <li>Node.js</li>
-              <li>JavaScript</li>
-              <li>TypeScript</li>
-              <li>React</li>
-              <li>Next.js</li>
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>PostgreSQL</li>
-              <li>Git</li>
-              <li>Linux</li>
-              <li>Shell Script</li>
-              <li>Python</li>
-              <li>C#</li>
-              <li>.NET</li>
-            </ul>
-          </div>,
+          <ul key={key()}>
+            <li>Node.js</li>
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>React</li>
+            <li>Next.js</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>PostgreSQL</li>
+            <li>Git</li>
+            <li>Linux</li>
+            <li>Shell Script</li>
+            <li>Python</li>
+            <li>C#</li>
+            <li>.NET</li>
+          </ul>,
         ]);
         break;
 
       case "projects":
         updateTerminalOutput([
-          <div className="text-base leading-4" key={key()}>
-            <ul>
-              <li>
-                <a
-                  href="https://duolingo-tracker.marlonangeli.com.br/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Duolingo Streak Tracker
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/marlonangeli/clone-tabnews"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Clone TabNews
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/marlonangeli/topx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  TopX
-                </a>
-              </li>
-            </ul>
-          </div>,
+          <ul key={key()}>
+            <li>
+              <a
+                href="https://duolingo-tracker.marlonangeli.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Duolingo Streak Tracker
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/marlonangeli/clone-tabnews"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Clone TabNews
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/marlonangeli/topx"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                TopX
+              </a>
+            </li>
+          </ul>,
         ]);
         break;
 
@@ -175,12 +167,12 @@ export const TerminalComponent = () => {
                 href="https://www.duolingo.com/profile/marlonangeli"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-400 text-base leading-4"
+                className="text-green-400"
                 key={key()}
               >
                 https://www.duolingo.com/profile/marlonangeli
               </a>,
-              <span className="text-base leading-4" key={key()}>
+              <span key={key()}>
                 Minha ofensiva atual é de <strong>{response}</strong> dias 🔥
                 <br />
               </span>,

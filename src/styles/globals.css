@@ -87,3 +87,7 @@ div > .react-terminal-wrapper {
 div .react-terminal-line {
   @apply whitespace-pre-wrap text-base leading-5;
 }
+
+div .react-terminal-line::before {
+  content: none;
+}
