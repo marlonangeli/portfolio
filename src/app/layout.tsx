@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import Footer from "@/components/footer";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import Particles from "@/components/particles";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
@@ -28,6 +29,10 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <Particles
+            className="absolute inset-0 pointer-events-none"
+            quantity={25}
+          />
           {children}
           <Footer />
         </ThemeProvider>
