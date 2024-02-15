@@ -93,22 +93,52 @@ export const TerminalComponent = () => {
 
       case "skills":
         updateTerminalOutput([
-          <ul key={key()}>
-            <li>Node.js</li>
-            <li>JavaScript</li>
-            <li>TypeScript</li>
-            <li>React</li>
-            <li>Next.js</li>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>PostgreSQL</li>
-            <li>Git</li>
-            <li>Linux</li>
-            <li>Shell Script</li>
-            <li>Python</li>
-            <li>C#</li>
-            <li>.NET</li>
-          </ul>,
+          <div key={key()} className="text-white">
+            <h3 className="text-lg font-bold mb-2">🚀 Habilidades</h3>
+
+            <div className="mb-4">
+              <span className="font-bold">Back-end:</span>
+              <ul className="list-disc list-inside ml-4">
+                <li>⚙️ Node.js</li>
+                <li>🐍 Python</li>
+                <li>🤖 C# (.NET)</li>
+                <li>🐚 Shell Script</li>
+                <li>🐧 Linux</li>
+              </ul>
+            </div>
+
+            <div className="mb-4">
+              <span className="font-bold">Frontend:</span>
+              <ul className="list-disc list-inside ml-4">
+                <li>⚛️ React</li>
+                <li>⏭️ Next.js</li>
+                <li>📝 HTML</li>
+                <li>🎨 Tailwind CSS</li>
+                <li>🔍 JavaScript</li>
+                <li>📘 TypeScript</li>
+              </ul>
+            </div>
+
+            <div className="mb-4">
+              <span className="font-bold">DevOps:</span>
+              <ul className="list-disc list-inside ml-4">
+                <li>🔗 Git</li>
+                <li>🐧 Linux</li>
+                <li>🐚 Shell Script</li>
+                <li>🐳 Docker</li>
+                <li>🔄 Redis</li>
+              </ul>
+            </div>
+
+            <div>
+              <span className="font-bold">Banco de Dados:</span>
+              <ul className="list-disc list-inside ml-4">
+                <li>🗄️ SQL Server</li>
+                <li>🐘 PostgreSQL</li>
+                <li>🔍 Elasticsearch</li>
+              </ul>
+            </div>
+          </div>,
         ]);
         break;
 
@@ -162,20 +192,29 @@ export const TerminalComponent = () => {
         memoizedGetDuolingoStreak.then((response) => {
           if (typeof response === "number") {
             updateTerminalOutput([
-              "A ofensiva do Duolingo é uma conquista importante pra mim, você pode verificar em:",
-              <a
-                href="https://www.duolingo.com/profile/marlonangeli"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-green-400"
-                key={key()}
-              >
-                https://www.duolingo.com/profile/marlonangeli
-              </a>,
-              <span key={key()}>
-                Minha ofensiva atual é de <strong>{response}</strong> dias 🔥
-                <br />
-              </span>,
+              <div key={key()} className="text-white">
+                <div className="mb-2">
+                  🌐 A ofensiva do Duolingo é uma conquista importante pra mim!
+                  Você pode verificar em:
+                  <a
+                    href="https://www.duolingo.com/profile/marlonangeli"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 ml-1"
+                    key={key()}
+                  >
+                    https://www.duolingo.com/profile/marlonangeli
+                  </a>
+                </div>
+                <div className="mb-2">
+                  <img
+                    src="https://github.com/marlonangeli/portfolio/blob/main/src/assets/duolingo.png"
+                    alt="Duolingo Logo"
+                    className="w-6 h-6 inline mr-1"
+                  />
+                  Minha ofensiva atual é de <strong>{response}</strong> dias 🔥
+                </div>
+              </div>,
             ]);
           } else {
             updateTerminalOutput([
