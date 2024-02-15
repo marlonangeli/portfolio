@@ -8,6 +8,7 @@ import Terminal, {
 } from "react-terminal-ui";
 
 import DuolingoIcon from "@/assets/duolingo.png";
+import ExternalLink from "@/components/external-link";
 import Image from "next/image";
 import { getDuolingoData } from "@/lib/duolingo";
 import { createUniqueKey as key } from "@/lib/utils";
@@ -50,7 +51,7 @@ export const TerminalComponent = () => {
     const initial = [
       "Olá, eu sou",
       AnsiName(),
-      "um desenvolvedor de software Back-end 🚀",
+      "um Desenvolvedor de Software Back-end 🚀",
       "",
       "Bem vindo ao meu portfólio! Digite 'help' para ver os comandos disponíveis",
     ];
@@ -146,43 +147,94 @@ export const TerminalComponent = () => {
 
       case "projects":
         updateTerminalOutput([
-          <ul key={key()}>
-            <li>
-              <a
-                href="https://duolingo-tracker.marlonangeli.com.br/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Duolingo Streak Tracker
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/marlonangeli/clone-tabnews"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Clone TabNews
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/marlonangeli/topx"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                TopX
-              </a>
-            </li>
-          </ul>,
+          <div key={key()} className="text-white">
+            <h3 className="text-lg font-bold mb-2">🚀 Projetos</h3>
+            <ul className="list-disc list-inside ml-4">
+              <li className="mb-4">
+                <strong>Duolingo Streak Tracker</strong> - Acompanhe e visualize
+                sua ofensiva no Duolingo.
+                <br />
+                Tecnologias: React, Next.js
+                <br />
+                <ExternalLink
+                  href="https://duolingo-tracker.marlonangeli.com.br/"
+                  className="text-blue-400"
+                >
+                  Acesse aqui.
+                </ExternalLink>
+              </li>
+
+              <li className="mb-4">
+                <strong>Clone TabNews</strong> - Um clone do TabNews para o{" "}
+                <strong>curso.dev</strong>
+                <br />
+                Tecnologias: JavaScript, Next.js, PostgreSQL.
+                <br />
+                <ExternalLink
+                  href="https://github.com/marlonangeli/clone-tabnews"
+                  className="text-blue-400"
+                >
+                  Veja no GitHub.
+                </ExternalLink>
+              </li>
+
+              <li>
+                <strong>TopX</strong> - Uma aplicação para descobrir os melhores
+                em diferentes categorias. (Em desenvolvimento)
+                <br />
+                Tecnologias: .NET, PostgreSQL, Next.js, Shadcn UI
+                <br />
+                <ExternalLink
+                  href="https://github.com/marlonangeli/topx"
+                  className="text-blue-400"
+                >
+                  Veja no GitHub.
+                </ExternalLink>
+              </li>
+            </ul>
+          </div>,
         ]);
         break;
 
       case "contact":
         updateTerminalOutput([
           "Você pode me encontrar em:",
-          "Linkedin...",
-          "GitHub...",
+          <div key={key()} className="mb-2">
+            - LinkedIn:{" "}
+            <ExternalLink
+              href="https://www.linkedin.com/in/marlonangeli/"
+              className="text-blue-400"
+            >
+              @marlonangeli
+            </ExternalLink>
+          </div>,
+          <div key={key()} className="mb-2">
+            - GitHub:{" "}
+            <ExternalLink
+              href="https://github.com/seu-usuario"
+              className="text-gray-400"
+            >
+              @marlonangeli
+            </ExternalLink>
+          </div>,
+          <div key={key()} className="mb-2">
+            - E-mail:{" "}
+            <ExternalLink
+              href="mailto:iam@marlonangeli.com.br"
+              className="text-red-400"
+            >
+              iam@marlonangeli.com.br
+            </ExternalLink>
+          </div>,
+          <div key={key()} className="mb-2">
+            - WhatsApp:{" "}
+            <ExternalLink
+              href="https://wa.me/5545984214127"
+              className="text-green-400"
+            >
+              Mensagem no WhatsApp
+            </ExternalLink>
+          </div>,
         ]);
         break;
 
@@ -194,19 +246,16 @@ export const TerminalComponent = () => {
         memoizedGetDuolingoStreak.then((response) => {
           if (typeof response === "number") {
             updateTerminalOutput([
-              <div key={key()} className="text-white">
+              <div key={key()}>
                 <div className="mb-2">
                   🌐 A ofensiva do Duolingo é uma conquista importante pra mim!
-                  Você pode verificar em:
-                  <a
+                  Você pode verificar em:{" "}
+                  <ExternalLink
                     href="https://www.duolingo.com/profile/marlonangeli"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-green-400 ml-1"
-                    key={key()}
+                    className="text-green-400 "
                   >
                     https://www.duolingo.com/profile/marlonangeli
-                  </a>
+                  </ExternalLink>
                 </div>
                 <div className="mb-2">
                   <Image
@@ -257,7 +306,6 @@ export const TerminalComponent = () => {
                 {error.message}
               </span>
             )}
-            ,
           </div>,
         ]);
         break;
