@@ -7,6 +7,8 @@ import Terminal, {
   TerminalOutput,
 } from "react-terminal-ui";
 
+import DuolingoIcon from "@/assets/duolingo.png";
+import Image from "next/image";
 import { getDuolingoData } from "@/lib/duolingo";
 import { createUniqueKey as key } from "@/lib/utils";
 import { useTheme } from "next-themes";
@@ -207,10 +209,12 @@ export const TerminalComponent = () => {
                   </a>
                 </div>
                 <div className="mb-2">
-                  <img
-                    src="https://github.com/marlonangeli/portfolio/blob/main/src/assets/duolingo.png"
-                    alt="Duolingo Logo"
+                  <Image
+                    src={DuolingoIcon}
                     className="w-6 h-6 inline mr-1"
+                    width={128}
+                    height={128}
+                    alt="Duolingo"
                   />
                   Minha ofensiva atual é de <strong>{response}</strong> dias 🔥
                 </div>
