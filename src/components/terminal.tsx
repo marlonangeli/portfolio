@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import Terminal, {
   ColorMode,
   TerminalInput,
@@ -42,8 +42,7 @@ export const TerminalComponent = () => {
     projects: "exibe os meus projetos",
     contact: "exibe as minhas redes sociais",
     welcome: "exibe a mensagem de boas vindas",
-    duolingo:
-      "exibe a ofensiva no Duolingo, é possível buscar por outro usuário passando o username como parâmetro",
+    duolingo: "exibe a minha ofensiva atual no Duolingo",
     secret: "dica para encontrar o segredo",
   };
 
@@ -96,7 +95,7 @@ export const TerminalComponent = () => {
 
       case "skills":
         updateTerminalOutput([
-          <div key={key()} className="text-white">
+          <div key={key()}>
             <h3 className="text-lg font-bold mb-2">🚀 Habilidades</h3>
 
             <div className="mb-4">
@@ -147,7 +146,7 @@ export const TerminalComponent = () => {
 
       case "projects":
         updateTerminalOutput([
-          <div key={key()} className="text-white">
+          <div key={key()}>
             <h3 className="text-lg font-bold mb-2">🚀 Projetos</h3>
             <ul className="list-disc list-inside ml-4">
               <li className="mb-4">
@@ -158,7 +157,7 @@ export const TerminalComponent = () => {
                 <br />
                 <ExternalLink
                   href="https://duolingo-tracker.marlonangeli.com.br/"
-                  className="text-blue-400"
+                  className="text-blue"
                 >
                   Acesse aqui.
                 </ExternalLink>
@@ -172,7 +171,7 @@ export const TerminalComponent = () => {
                 <br />
                 <ExternalLink
                   href="https://github.com/marlonangeli/clone-tabnews"
-                  className="text-blue-400"
+                  className="text-blue"
                 >
                   Veja no GitHub.
                 </ExternalLink>
@@ -186,7 +185,7 @@ export const TerminalComponent = () => {
                 <br />
                 <ExternalLink
                   href="https://github.com/marlonangeli/topx"
-                  className="text-blue-400"
+                  className="text-blue"
                 >
                   Veja no GitHub.
                 </ExternalLink>
@@ -203,7 +202,7 @@ export const TerminalComponent = () => {
             - LinkedIn:{" "}
             <ExternalLink
               href="https://www.linkedin.com/in/marlonangeli/"
-              className="text-blue-400"
+              className="text-blue"
             >
               @marlonangeli
             </ExternalLink>
@@ -212,7 +211,7 @@ export const TerminalComponent = () => {
             - GitHub:{" "}
             <ExternalLink
               href="https://github.com/seu-usuario"
-              className="text-gray-400"
+              className="text-gray"
             >
               @marlonangeli
             </ExternalLink>
@@ -221,7 +220,7 @@ export const TerminalComponent = () => {
             - E-mail:{" "}
             <ExternalLink
               href="mailto:iam@marlonangeli.com.br"
-              className="text-red-400"
+              className="text-orange"
             >
               iam@marlonangeli.com.br
             </ExternalLink>
@@ -230,7 +229,7 @@ export const TerminalComponent = () => {
             - WhatsApp:{" "}
             <ExternalLink
               href="https://wa.me/5545984214127"
-              className="text-green-400"
+              className="text-green"
             >
               Mensagem no WhatsApp
             </ExternalLink>
@@ -252,7 +251,7 @@ export const TerminalComponent = () => {
                   Você pode verificar em:{" "}
                   <ExternalLink
                     href="https://www.duolingo.com/profile/marlonangeli"
-                    className="text-green-400 "
+                    className="text-green "
                   >
                     https://www.duolingo.com/profile/marlonangeli
                   </ExternalLink>
@@ -271,7 +270,7 @@ export const TerminalComponent = () => {
             ]);
           } else {
             updateTerminalOutput([
-              <span key={key()} className="text-red-600">
+              <span key={key()} className="text-rose">
                 {response}
               </span>,
             ]);
@@ -298,7 +297,7 @@ export const TerminalComponent = () => {
               : null,
         });
         updateTerminalOutput([
-          <div className="text-red-600 text-base leading-5" key={key()}>
+          <div className="text-rose text-base leading-5" key={key()}>
             {`Comando '${cmd}' não encontrado`}
             {error.message && (
               <span>
