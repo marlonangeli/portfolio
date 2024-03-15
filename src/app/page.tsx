@@ -30,9 +30,10 @@ export default function Home() {
             </Button>
             <Button type="button" variant="secondary">
               <Link
-                href="https://rxresu.me/marlonangeli/desenvolvedor-back-end"
-                target="_blank"
+                href="/Marlon Angeli - Desenvolvedor de Software.pdf"
                 rel="noopener noreferrer"
+                target="_blank"
+                download
               >
                 Baixar CV
               </Link>

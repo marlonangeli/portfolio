@@ -15,7 +15,7 @@ import { createUniqueKey as key } from "@/lib/utils";
 import { useTheme } from "next-themes";
 
 export const TerminalComponent = () => {
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
   const [output, setOutput] = useState<JSX.Element[]>([]);
   const [error, setError] = useState<{ count: number; message: string | null }>(
     { count: 0, message: null }
@@ -317,7 +317,11 @@ export const TerminalComponent = () => {
       prompt={prompt}
       name="Terminal in @portfolio"
       onInput={handleInput}
-      colorMode={theme === "light" ? ColorMode.Light : ColorMode.Dark}
+      colorMode={
+        theme === "dark" || (theme === "system" && systemTheme === "dark")
+          ? ColorMode.Dark
+          : ColorMode.Light
+      }
       key="terminal"
     >
       {output}

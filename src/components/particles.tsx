@@ -26,7 +26,7 @@ export default function Particles({
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
   const particlesColorRef = useRef<string>("0, 0, 0");
 
   useEffect(() => {
@@ -47,18 +47,10 @@ export default function Particles({
   }, [mousePosition.x, mousePosition.y]);
 
   useEffect(() => {
+    const color = theme === "system" ? systemTheme : theme;
     if (context.current) {
-      switch (theme) {
-        case "light":
-          particlesColorRef.current = "0, 0, 0";
-          break;
-        case "system":
-          particlesColorRef.current = "102, 178, 255";
-          break;
-        default:
-          particlesColorRef.current = "255, 255, 255";
-          break;
-      }
+      particlesColorRef.current =
+        color === "dark" ? "255, 255, 255" : "0, 0, 0";
       context.current.clearRect(
         0,
         0,
