@@ -1,3 +1,8 @@
+import {
+  VerticalTimeline,
+  VerticalTimelineRoot,
+} from "@/components/vertical-timeline";
+
 import { Button } from "@/components/ui/button";
 import DevelopmentWarning from "@/components/development-warning";
 import Link from "next/link";
@@ -41,7 +46,17 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="flex flex-col items-center mt-10"></section>
+      <section className="flex flex-col items-center mt-10">
+        <VerticalTimelineRoot>
+          <VerticalTimeline
+            title="Teste"
+            dateStart="24/03/2024"
+            type="education"
+            current
+            dateEnd="24/03/2024"
+          ></VerticalTimeline>
+        </VerticalTimelineRoot>
+      </section>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import Terminal, {
   ColorMode,
   TerminalInput,
@@ -14,7 +14,7 @@ import { getDuolingoData } from "@/lib/duolingo";
 import { createUniqueKey as key } from "@/lib/utils";
 import { useTheme } from "next-themes";
 
-export const TerminalComponent = () => {
+export function TerminalComponent() {
   const { theme, systemTheme } = useTheme();
   const [output, setOutput] = useState<JSX.Element[]>([]);
   const [error, setError] = useState<{ count: number; message: string | null }>(
@@ -164,13 +164,13 @@ export const TerminalComponent = () => {
               </li>
 
               <li className="mb-4">
-                <strong>Clone TabNews</strong> - Um clone do TabNews para o{" "}
-                <strong>curso.dev</strong>
+                <strong>Meu blog</strong> - Uma implementação do TabNews para o{" "}
+                <strong>curso.dev</strong>, modificado para o meu blog pessoal.
                 <br />
                 Tecnologias: JavaScript, Next.js, PostgreSQL.
                 <br />
                 <ExternalLink
-                  href="https://github.com/marlonangeli/clone-tabnews"
+                  href="https://github.com/marlonangeli/blog"
                   className="text-blue"
                 >
                   Veja no GitHub.
@@ -318,16 +318,16 @@ export const TerminalComponent = () => {
       name="Terminal in @portfolio"
       onInput={handleInput}
       colorMode={
-        theme === "dark" || (theme === "system" && systemTheme === "dark")
-          ? ColorMode.Dark
-          : ColorMode.Light
+        theme === "light" || (theme === "system" && systemTheme === "light")
+          ? ColorMode.Light
+          : ColorMode.Dark
       }
       key="terminal"
     >
       {output}
     </Terminal>
   );
-};
+}
 
 const AnsiName = () => {
   const ansii = [
