@@ -16,12 +16,15 @@ import {
 } from "@/components/ui/navigation-menu";
 import React, { ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
 import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
-import { ModeToggle } from "./mode-toggle";
-import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/components/mode-toggle";
 
-const JetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
+const JetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  preload: true,
+});
 
 export const Navbar = () => {
   const navMenuStyle = navigationMenuTriggerStyle();

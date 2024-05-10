@@ -27,7 +27,7 @@ export default function Home() {
           </h1>
           <p>
             O terminal ao lado é interativo, você pode navegar e brincar a
-            vontade, será que consegue encontrar meu segredo?
+            vontade.
           </p>
           <div className="mt-10 flex justify-center flex-wrap space-x-4">
             <Button type="button" variant="default">
@@ -45,17 +45,6 @@ export default function Home() {
             </Button>
           </div>
         </div>
-      </section>
-      <section className="flex flex-col items-center mt-10">
-        <VerticalTimelineRoot>
-          <VerticalTimeline
-            title="Teste"
-            dateStart="24/03/2024"
-            type="education"
-            current
-            dateEnd="24/03/2024"
-          ></VerticalTimeline>
-        </VerticalTimelineRoot>
       </section>
     </main>
   );

@@ -28,7 +28,14 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableColorScheme
+          enableSystem
+          disableTransitionOnChange
+          key={"theme-provider"}
+        >
           <Particles
             className="absolute inset-0 pointer-events-none"
             quantity={25}

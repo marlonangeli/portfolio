@@ -9,17 +9,26 @@ import Terminal, {
 
 import DuolingoIcon from "@/assets/duolingo.png";
 import ExternalLink from "@/components/external-link";
-import Image from "next/image";
 import { getDuolingoData } from "@/lib/duolingo";
+import Image from "next/image";
 import { createUniqueKey as key } from "@/lib/utils";
 import { useTheme } from "next-themes";
 
 export function TerminalComponent() {
+  const [terminalTheme, setTerminalTheme] = useState("");
   const { theme, systemTheme } = useTheme();
   const [output, setOutput] = useState<JSX.Element[]>([]);
   const [error, setError] = useState<{ count: number; message: string | null }>(
     { count: 0, message: null }
   );
+
+  useEffect(() => {
+    setTerminalTheme(
+      theme === "light" || (theme === "system" && systemTheme === "light")
+        ? "light"
+        : "dark"
+    );
+  }, [theme, systemTheme]);
 
   const memoizedGetDuolingoStreak = useMemo(async () => {
     try {
@@ -317,11 +326,7 @@ export function TerminalComponent() {
       prompt={prompt}
       name="Terminal in @portfolio"
       onInput={handleInput}
-      colorMode={
-        theme === "light" || (theme === "system" && systemTheme === "light")
-          ? ColorMode.Light
-          : ColorMode.Dark
-      }
+      colorMode={terminalTheme === "light" ? ColorMode.Light : ColorMode.Dark}
       key="terminal"
     >
       {output}
