@@ -1,8 +1,3 @@
-import {
-  VerticalTimeline,
-  VerticalTimelineRoot,
-} from "@/components/vertical-timeline";
-
 import { Button } from "@/components/ui/button";
 import DevelopmentWarning from "@/components/development-warning";
 import Link from "next/link";
